@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import ContactForm from '../ContactForm/ContactForm'
+import ContactForm  from '../ContactForm/ContactForm';
 
 function ContactList() {
   const [list, setList] = useState([])
@@ -14,9 +14,14 @@ function ContactList() {
 }
 
   useEffect(() => {
-    const localList = localStorage.getItem('list') || [];
-    setList(JSON.parse(localList))
-  }, [])
+    const localList = localStorage.getItem('list') || '[]';
+    try {
+      setList(JSON.parse(localList));
+    } catch (error) {
+      console.error('Ошибка парсинга JSON:', error);
+      setList([]);
+    }
+  }, []);
   
   useEffect(() => {
     localStorage.setItem("list", JSON.stringify(list))
